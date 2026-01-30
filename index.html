@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quản lý sản phẩm</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm theo tiêu đề...">
+            </div>
+            
+            <div class="control-group">
+                <label for="sortSelect">Sắp xếp:</label>
+                <select id="sortSelect">
+                    <option value="none">Mặc định</option>
+                    <option value="price-asc">Giá tăng dần</option>
+                    <option value="price-desc">Giá giảm dần</option>
+                    <option value="title-asc">Tên A-Z</option>
+                    <option value="title-desc">Tên Z-A</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="limitSelect">Hiển thị:</label>
+                <select id="limitSelect">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </div>
+
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hình ảnh</th>
+                    <th>Tiêu đề</th>
+                    <th>Giá</th>
+                    <th>Danh mục</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="productBody">
+                <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination buttons will be loaded here -->
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
