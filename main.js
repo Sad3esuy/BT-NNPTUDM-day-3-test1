@@ -34,13 +34,15 @@ function renderUI() {
 
 // Hàm xử lý và làm sạch tất cả URL hình ảnh từ API
 function cleanAllImages(imageArray) {
-    if (!imageArray || !Array.isArray(imageArray)) return ["https://via.placeholder.com/50"];
+    const PLACEHOLDER = "https://placehold.co/50x50?text=No+Image";
+    if (!imageArray || !Array.isArray(imageArray) || imageArray.length === 0) return [PLACEHOLDER];
     
     let cleanedUrls = [];
     
     imageArray.forEach(img => {
+        if (!img) return;
         try {
-            // Kiểm tra nếu là chuỗi JSON mảng (lỗi đặc trưng của Platzi API)
+            // Trường hợp URL bị bọc trong chuỗi JSON mảng: "["http..."]"
             if (typeof img === 'string' && img.startsWith('[') && img.endsWith(']')) {
                 const parsed = JSON.parse(img);
                 if (Array.isArray(parsed)) {
@@ -56,13 +58,16 @@ function cleanAllImages(imageArray) {
         }
     });
 
-    // Cuối cùng, dọn dẹp từng URL (bỏ dấu nháy, ngoặc thừa và lọc link hợp lệ)
-    return cleanedUrls
-        .map(url => typeof url === 'string' ? url.replace(/[\[\]\"]/g, "") : "")
+    // Dọn dẹp ký tự thừa và lọc link
+    const finalUrls = cleanedUrls
+        .map(url => typeof url === 'string' ? url.replace(/[\[\]\"]/g, "").trim() : "")
         .filter(url => url.startsWith("http"));
+
+    return finalUrls.length > 0 ? finalUrls : [PLACEHOLDER];
 }
 
 function displayProducts(products) {
+    const PLACEHOLDER = "https://placehold.co/50x50?text=No+Image";
     productBody.innerHTML = "";
     if (products.length === 0) {
         productBody.innerHTML = "<tr><td colspan='6' style='text-align:center'>Không tìm thấy sản phẩm nào.</td></tr>";
@@ -73,10 +78,15 @@ function displayProducts(products) {
         const tr = document.createElement("tr");
         const images = cleanAllImages(product.images);
         
-        // Tạo HTML cho tất cả ảnh của sản phẩm
-        const imagesHtml = images.length > 0 
-            ? images.map(src => `<img src="${src}" class="product-img" alt="${product.title}" width="50" height="50" onerror="this.src='https://via.placeholder.com/50'">`).join('')
-            : `<img src="https://via.placeholder.com/50" class="product-img" width="50" height="50">`;
+        // referrerpolicy="no-referrer" giúp khắc phục lỗi 403 Forbidden từ một số host như Imgur
+        const imagesHtml = images.map(src => `
+            <img src="${src}" 
+                 class="product-img" 
+                 alt="${product.title}" 
+                 width="50" height="50" 
+                 referrerpolicy="no-referrer"
+                 onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+        `).join('');
 
         tr.innerHTML = `
             <td>${product.id}</td>

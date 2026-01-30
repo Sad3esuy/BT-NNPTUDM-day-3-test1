@@ -53,12 +53,52 @@ th, td {
 }
 
 th {
-    background-color: #f8f9fa;
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
     color: #333;
 }
 
+tbody tr:nth-child(even) {
+    background-color: #333;
+    color: #ffffff;
+}
+
+tbody tr:nth-child(even) td {
+    border-bottom: 1px solid #444;
+}
+
+tbody tr:nth-child(even) button {
+    background-color: #f4f4f4;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+tbody tr:nth-child(odd) button {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #007bff !important;
+    color: #fff !important;
+}
+
+tr:hover button {
+    background-color: #fff !important;
+    color: #007bff !important;
+    border-color: #fff !important;
 }
 
 .img-container {
